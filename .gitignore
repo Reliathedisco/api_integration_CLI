@@ -48,4 +48,5 @@ packages/cli/node_modules
 # env backups
 *.env.local.bak
 .env.local.bak
+.env.production
 
