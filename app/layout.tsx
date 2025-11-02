@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "API Integrations - Production-Ready Templates",
+  title: "Integrate API - Production-Ready Templates",
   description: "Generate production-ready API integrations in minutes with battle-tested templates for Stripe, Clerk, Resend, and more.",
 };
 
