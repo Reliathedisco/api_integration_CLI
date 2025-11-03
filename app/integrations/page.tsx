@@ -9,7 +9,7 @@ export default function IntegrationsPage() {
     <>
       <Navigation />
       <main className="flex-1">
-        <section className="container py-24">
+        <section className="container mx-auto px-4 md:px-6 lg:px-8 py-24">
           <div className="text-center mb-16">
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4">
               Available Integrations
@@ -50,8 +50,8 @@ export default function IntegrationsPage() {
                     </div>
                   </div>
                   <div className="pt-2">
-                    <Button variant="outline" className="w-full" asChild>
-                      <Link href={`/docs/${integration.id}`}>View Documentation</Link>
+                    <Button variant="outline" className="w-full" disabled>
+                      View Documentation (Coming Soon)
                     </Button>
                   </div>
                 </CardContent>
@@ -60,7 +60,7 @@ export default function IntegrationsPage() {
           </div>
 
           {/* Coming Soon */}
-          <div className="mt-24 max-w-5xl mx-auto">
+          <div className="mt-24 max-w-5xl mx-auto px-4">
             <h2 className="text-3xl font-bold text-center mb-12">Coming Soon</h2>
             <div className="grid md:grid-cols-3 gap-6">
               {comingSoon.map((integration) => (
@@ -81,8 +81,8 @@ export default function IntegrationsPage() {
             <p className="text-muted-foreground mb-4">
               Want to request an integration?
             </p>
-            <Button variant="outline" asChild>
-              <Link href="/contact">Request Integration</Link>
+            <Button variant="outline" disabled>
+              Request Integration (Coming Soon)
             </Button>
           </div>
         </section>

@@ -8,7 +8,7 @@ export default function DocsPage() {
     <>
       <Navigation />
       <main className="flex-1">
-        <section className="container py-24">
+        <section className="container mx-auto px-4 md:px-6 lg:px-8 py-24">
           <div className="mb-16">
             <h1 className="text-4xl font-bold mb-4">Documentation</h1>
             <p className="text-xl text-muted-foreground max-w-2xl">
@@ -17,71 +17,59 @@ export default function DocsPage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-            <Link href="/docs/getting-started">
-              <Card className="hover:border-primary transition-colors h-full">
-                <CardHeader>
-                  <CardTitle>🚀 Getting Started</CardTitle>
-                  <CardDescription>
-                    Install the CLI and create your first integration
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </Link>
+            <Card className="hover:border-primary transition-colors h-full opacity-60">
+              <CardHeader>
+                <CardTitle>🚀 Getting Started</CardTitle>
+                <CardDescription>
+                  Install the CLI and create your first integration (Coming Soon)
+                </CardDescription>
+              </CardHeader>
+            </Card>
 
-            <Link href="/docs/cli">
-              <Card className="hover:border-primary transition-colors h-full">
-                <CardHeader>
-                  <CardTitle>⌨️ CLI Reference</CardTitle>
-                  <CardDescription>
-                    Complete guide to all CLI commands and options
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </Link>
+            <Card className="hover:border-primary transition-colors h-full opacity-60">
+              <CardHeader>
+                <CardTitle>⌨️ CLI Reference</CardTitle>
+                <CardDescription>
+                  Complete guide to all CLI commands and options (Coming Soon)
+                </CardDescription>
+              </CardHeader>
+            </Card>
 
-            <Link href="/docs/integrations">
-              <Card className="hover:border-primary transition-colors h-full">
-                <CardHeader>
-                  <CardTitle>🔌 Integrations</CardTitle>
-                  <CardDescription>
-                    Detailed docs for each integration
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </Link>
+            <Card className="hover:border-primary transition-colors h-full opacity-60">
+              <CardHeader>
+                <CardTitle>🔌 Integrations</CardTitle>
+                <CardDescription>
+                  Detailed docs for each integration (Coming Soon)
+                </CardDescription>
+              </CardHeader>
+            </Card>
 
-            <Link href="/docs/troubleshooting">
-              <Card className="hover:border-primary transition-colors h-full">
-                <CardHeader>
-                  <CardTitle>🔧 Troubleshooting</CardTitle>
-                  <CardDescription>
-                    Common issues and how to solve them
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </Link>
+            <Card className="hover:border-primary transition-colors h-full opacity-60">
+              <CardHeader>
+                <CardTitle>🔧 Troubleshooting</CardTitle>
+                <CardDescription>
+                  Common issues and how to solve them (Coming Soon)
+                </CardDescription>
+              </CardHeader>
+            </Card>
 
-            <Link href="/docs/examples">
-              <Card className="hover:border-primary transition-colors h-full">
-                <CardHeader>
-                  <CardTitle>💡 Examples</CardTitle>
-                  <CardDescription>
-                    Real-world usage examples and patterns
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </Link>
+            <Card className="hover:border-primary transition-colors h-full opacity-60">
+              <CardHeader>
+                <CardTitle>💡 Examples</CardTitle>
+                <CardDescription>
+                  Real-world usage examples and patterns (Coming Soon)
+                </CardDescription>
+              </CardHeader>
+            </Card>
 
-            <Link href="/docs/faq">
-              <Card className="hover:border-primary transition-colors h-full">
-                <CardHeader>
-                  <CardTitle>❓ FAQ</CardTitle>
-                  <CardDescription>
-                    Frequently asked questions
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </Link>
+            <Card className="hover:border-primary transition-colors h-full opacity-60">
+              <CardHeader>
+                <CardTitle>❓ FAQ</CardTitle>
+                <CardDescription>
+                  Frequently asked questions (Coming Soon)
+                </CardDescription>
+              </CardHeader>
+            </Card>
           </div>
 
           {/* Quick Links */}
@@ -118,30 +106,20 @@ export default function DocsPage() {
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
-                  <li>
-                    <Link href="/docs/stripe" className="text-primary hover:underline">
-                      Stripe Payment Processing →
-                    </Link>
+                  <li className="text-muted-foreground">
+                    Stripe Payment Processing (Coming Soon)
                   </li>
-                  <li>
-                    <Link href="/docs/clerk" className="text-primary hover:underline">
-                      Clerk Authentication →
-                    </Link>
+                  <li className="text-muted-foreground">
+                    Clerk Authentication (Coming Soon)
                   </li>
-                  <li>
-                    <Link href="/docs/resend" className="text-primary hover:underline">
-                      Resend Email Sending →
-                    </Link>
+                  <li className="text-muted-foreground">
+                    Resend Email Sending (Coming Soon)
                   </li>
-                  <li>
-                    <Link href="/docs/liveblocks" className="text-primary hover:underline">
-                      Liveblocks Collaboration →
-                    </Link>
+                  <li className="text-muted-foreground">
+                    Liveblocks Collaboration (Coming Soon)
                   </li>
-                  <li>
-                    <Link href="/docs/supabase" className="text-primary hover:underline">
-                      Supabase Database →
-                    </Link>
+                  <li className="text-muted-foreground">
+                    Supabase Database (Coming Soon)
                   </li>
                 </ul>
               </CardContent>
