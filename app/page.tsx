@@ -10,7 +10,7 @@ export default function HomePage() {
       <Navigation />
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="container py-24 md:py-32">
+        <section className="container mx-auto px-4 md:px-6 lg:px-8 py-24 md:py-32">
           <div className="max-w-3xl mx-auto text-center space-y-8">
             <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">
               Production-Ready Templates
@@ -42,7 +42,7 @@ export default function HomePage() {
         </section>
 
         {/* Features Section */}
-        <section className="container py-24 border-t">
+        <section className="container mx-auto px-4 md:px-6 lg:px-8 py-24 border-t">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
               Why API Integrations?
@@ -98,7 +98,7 @@ export default function HomePage() {
         </section>
 
         {/* Integrations Preview */}
-        <section className="container py-24 border-t">
+        <section className="container mx-auto px-4 md:px-6 lg:px-8 py-24 border-t">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
               Available Integrations
@@ -138,7 +138,7 @@ export default function HomePage() {
         </section>
 
         {/* CTA Section */}
-        <section className="container py-24 border-t">
+        <section className="container mx-auto px-4 md:px-6 lg:px-8 py-24 border-t">
           <div className="max-w-3xl mx-auto text-center space-y-8">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
               Ready to ship faster?

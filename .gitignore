@@ -49,4 +49,6 @@ packages/cli/node_modules
 *.env.local.bak
 .env.local.bak
 .env.production
+.env.check
+.env.vercel.*
 
