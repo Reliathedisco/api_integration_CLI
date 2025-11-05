@@ -17,58 +17,93 @@ export default function DocsPage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-            <Card className="hover:border-primary transition-colors h-full opacity-60">
+            <Card className="hover:border-primary transition-colors h-full">
               <CardHeader>
                 <CardTitle>🚀 Getting Started</CardTitle>
                 <CardDescription>
-                  Install the CLI and create your first integration (Coming Soon)
+                  Install the CLI and create your first integration
                 </CardDescription>
               </CardHeader>
+              <div className="p-6 pt-0">
+                <p className="text-sm mb-4">Run this command to get started:</p>
+                <div className="bg-muted rounded-md p-3">
+                  <code className="text-sm">npx @api-integrations/cli init</code>
+                </div>
+              </div>
             </Card>
 
-            <Card className="hover:border-primary transition-colors h-full opacity-60">
+            <Card className="hover:border-primary transition-colors h-full">
               <CardHeader>
                 <CardTitle>⌨️ CLI Reference</CardTitle>
                 <CardDescription>
-                  Complete guide to all CLI commands and options (Coming Soon)
+                  Complete guide to all CLI commands
                 </CardDescription>
               </CardHeader>
+              <div className="p-6 pt-0">
+                <ul className="text-sm space-y-2">
+                  <li><code className="bg-muted px-2 py-1 rounded">init</code> - Initialize project</li>
+                  <li><code className="bg-muted px-2 py-1 rounded">add</code> - Add integration</li>
+                  <li><code className="bg-muted px-2 py-1 rounded">list</code> - List integrations</li>
+                </ul>
+              </div>
             </Card>
 
-            <Card className="hover:border-primary transition-colors h-full opacity-60">
-              <CardHeader>
-                <CardTitle>🔌 Integrations</CardTitle>
-                <CardDescription>
-                  Detailed docs for each integration (Coming Soon)
-                </CardDescription>
-              </CardHeader>
-            </Card>
+            <Link href="/docs/stripe" className="block">
+              <Card className="hover:border-primary transition-colors h-full">
+                <CardHeader>
+                  <CardTitle>🔌 Integrations</CardTitle>
+                  <CardDescription>
+                    Detailed docs for each integration
+                  </CardDescription>
+                </CardHeader>
+                <div className="p-6 pt-0">
+                  <p className="text-sm">Click to view integration guides →</p>
+                </div>
+              </Card>
+            </Link>
 
-            <Card className="hover:border-primary transition-colors h-full opacity-60">
+            <Card className="hover:border-primary transition-colors h-full">
               <CardHeader>
                 <CardTitle>🔧 Troubleshooting</CardTitle>
                 <CardDescription>
-                  Common issues and how to solve them (Coming Soon)
+                  Common issues and solutions
                 </CardDescription>
               </CardHeader>
+              <div className="p-6 pt-0">
+                <ul className="text-sm space-y-2">
+                  <li>• Webhook not firing</li>
+                  <li>• Environment variables missing</li>
+                  <li>• Dependency conflicts</li>
+                </ul>
+              </div>
             </Card>
 
-            <Card className="hover:border-primary transition-colors h-full opacity-60">
+            <Card className="hover:border-primary transition-colors h-full">
               <CardHeader>
                 <CardTitle>💡 Examples</CardTitle>
                 <CardDescription>
-                  Real-world usage examples and patterns (Coming Soon)
+                  Real-world usage examples
                 </CardDescription>
               </CardHeader>
+              <div className="p-6 pt-0">
+                <p className="text-sm">Check the README files in each integration template for complete examples</p>
+              </div>
             </Card>
 
-            <Card className="hover:border-primary transition-colors h-full opacity-60">
+            <Card className="hover:border-primary transition-colors h-full">
               <CardHeader>
                 <CardTitle>❓ FAQ</CardTitle>
                 <CardDescription>
-                  Frequently asked questions (Coming Soon)
+                  Frequently asked questions
                 </CardDescription>
               </CardHeader>
+              <div className="p-6 pt-0">
+                <ul className="text-sm space-y-2">
+                  <li>• How do I get a license?</li>
+                  <li>• Can I use in multiple projects?</li>
+                  <li>• Do I get updates?</li>
+                </ul>
+              </div>
             </Card>
           </div>
 
@@ -106,20 +141,35 @@ export default function DocsPage() {
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
-                  <li className="text-muted-foreground">
-                    Stripe Payment Processing (Coming Soon)
+                  <li>
+                    <Link href="/docs/stripe" className="text-primary hover:underline">
+                      Stripe Payment Processing →
+                    </Link>
                   </li>
-                  <li className="text-muted-foreground">
-                    Clerk Authentication (Coming Soon)
+                  <li>
+                    <Link href="/docs/clerk" className="text-primary hover:underline">
+                      Clerk Authentication →
+                    </Link>
                   </li>
-                  <li className="text-muted-foreground">
-                    Resend Email Sending (Coming Soon)
+                  <li>
+                    <Link href="/docs/resend" className="text-primary hover:underline">
+                      Resend Email Sending →
+                    </Link>
                   </li>
-                  <li className="text-muted-foreground">
-                    Liveblocks Collaboration (Coming Soon)
+                  <li>
+                    <Link href="/docs/liveblocks" className="text-primary hover:underline">
+                      Liveblocks Collaboration →
+                    </Link>
                   </li>
-                  <li className="text-muted-foreground">
-                    Supabase Database (Coming Soon)
+                  <li>
+                    <Link href="/docs/supabase" className="text-primary hover:underline">
+                      Supabase Database →
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/docs/openai" className="text-primary hover:underline">
+                      OpenAI Integration →
+                    </Link>
                   </li>
                 </ul>
               </CardContent>

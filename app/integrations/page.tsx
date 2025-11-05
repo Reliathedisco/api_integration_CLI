@@ -50,8 +50,8 @@ export default function IntegrationsPage() {
                     </div>
                   </div>
                   <div className="pt-2">
-                    <Button variant="outline" className="w-full" disabled>
-                      View Documentation (Coming Soon)
+                    <Button variant="outline" className="w-full" asChild>
+                      <Link href={`/docs/${integration.id}`}>View Documentation</Link>
                     </Button>
                   </div>
                 </CardContent>
@@ -79,11 +79,11 @@ export default function IntegrationsPage() {
 
           <div className="text-center mt-16">
             <p className="text-muted-foreground mb-4">
-              Want to request an integration?
+              More integrations added regularly. Have a request?
             </p>
-            <Button variant="outline" disabled>
-              Request Integration (Coming Soon)
-            </Button>
+            <p className="text-sm text-muted-foreground">
+              Email us at: hello@integrateapi.io
+            </p>
           </div>
         </section>
       </main>
