@@ -10,7 +10,7 @@ export default function DashboardPage() {
   return (
     <>
       <Navigation />
-      <main className="flex-1">
+      <main className="flex flex-col flex-1">
         <section className="container py-24">
           <div className="mb-12">
             <h1 className="text-4xl font-bold mb-2">Dashboard</h1>
@@ -137,4 +137,3 @@ export default function DashboardPage() {
     </>
   );
 }
-
