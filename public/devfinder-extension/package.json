@@ -1,0 +1,31 @@
+{
+  "name": "devfinder-extension",
+  "version": "1.0.0",
+  "description": "Chrome extension to visually locate API endpoints, webhooks, keys, and other developer elements on any website",
+  "main": "generate-icons.js",
+  "scripts": {
+    "generate-icons": "node generate-icons.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "chrome-extension",
+    "developer-tools",
+    "api",
+    "webhook",
+    "visual-locator",
+    "devtools"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "canvas": "^2.11.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
+

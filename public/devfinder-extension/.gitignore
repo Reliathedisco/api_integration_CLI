@@ -1,0 +1,42 @@
+# DevFinder Chrome Extension - Git Ignore
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Icon files (will be generated)
+# Uncomment if you want to ignore generated icons
+# icons/*.png
+
+# Temporary files
+*.tmp
+*.log
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node modules (if you add build tools later)
+node_modules/
+npm-debug.log*
+
+# Dist/Build (if you add bundling later)
+dist/
+build/
+
+# Environment files
+.env
+.env.local
+
+# Chrome extension packaging
+*.pem
+*.crx
+*.zip
+

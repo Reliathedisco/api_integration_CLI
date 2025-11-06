@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevFinder Icon Generator</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      padding: 40px;
+      background: #f5f5f5;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      color: #666;
+      margin-bottom: 40px;
+    }
+    .canvas-container {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      margin: 40px 0;
+    }
+    .canvas-wrapper {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    canvas {
+      border: 1px solid #ddd;
+      display: block;
+      margin: 10px auto;
+    }
+    button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin: 10px;
+      transition: transform 0.2s;
+    }
+    button:hover {
+      transform: translateY(-2px);
+    }
+    .instructions {
+      max-width: 600px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+    .instructions h2 {
+      color: #333;
+      margin-bottom: 15px;
+    }
+    .instructions ol {
+      line-height: 1.8;
+      color: #555;
+    }
+    .success {
+      display: none;
+      background: #10b981;
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px auto;
+      max-width: 400px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔍 DevFinder Icon Generator</h1>
+  <p class="subtitle">Generate extension icons with one click</p>
+
+  <button onclick="generateAllIcons()">Generate All Icons</button>
+
+  <div class="canvas-container">
+    <div class="canvas-wrapper">
+      <h3>16x16</h3>
+      <canvas id="canvas16" width="16" height="16"></canvas>
+      <button onclick="downloadIcon('canvas16', 'icon16.png')">Download</button>
+    </div>
+    <div class="canvas-wrapper">
+      <h3>48x48</h3>
+      <canvas id="canvas48" width="48" height="48"></canvas>
+      <button onclick="downloadIcon('canvas48', 'icon48.png')">Download</button>
+    </div>
+    <div class="canvas-wrapper">
+      <h3>128x128</h3>
+      <canvas id="canvas128" width="128" height="128"></canvas>
+      <button onclick="downloadIcon('canvas128', 'icon128.png')">Download</button>
+    </div>
+  </div>
+
+  <div class="success" id="success">
+    ✓ Icons generated! Click download buttons to save them.
+  </div>
+
+  <div class="instructions">
+    <h2>📝 Instructions</h2>
+    <ol>
+      <li>Click <strong>"Generate All Icons"</strong> button above</li>
+      <li>Click each <strong>"Download"</strong> button to save the icons</li>
+      <li>Move the downloaded PNG files to the <code>icons/</code> folder in your extension directory</li>
+      <li>Load the extension in Chrome via <code>chrome://extensions/</code></li>
+    </ol>
+    <p style="margin-top: 20px; color: #666; font-size: 14px;">
+      <strong>Note:</strong> Make sure all three icon files are in the icons/ folder before loading the extension.
+    </p>
+  </div>
+
+  <script>
+    function drawIcon(canvas, size) {
+      const ctx = canvas.getContext('2d');
+      
+      // Create gradient background
+      const gradient = ctx.createLinearGradient(0, 0, size, size);
+      gradient.addColorStop(0, '#667eea');
+      gradient.addColorStop(1, '#764ba2');
+      
+      // Fill background
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, size, size);
+      
+      // Draw magnifying glass
+      const centerX = size / 2;
+      const centerY = size / 2.2;
+      const radius = size / 4;
+      const handleLength = size / 3.5;
+      
+      // Glass circle
+      ctx.strokeStyle = 'white';
+      ctx.lineWidth = size / 12;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+      ctx.stroke();
+      
+      // Handle
+      const handleStartX = centerX + radius * 0.7;
+      const handleStartY = centerY + radius * 0.7;
+      const handleEndX = handleStartX + handleLength * 0.7;
+      const handleEndY = handleStartY + handleLength * 0.7;
+      
+      ctx.lineWidth = size / 12;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(handleStartX, handleStartY);
+      ctx.lineTo(handleEndX, handleEndY);
+      ctx.stroke();
+    }
+
+    function generateAllIcons() {
+      drawIcon(document.getElementById('canvas16'), 16);
+      drawIcon(document.getElementById('canvas48'), 48);
+      drawIcon(document.getElementById('canvas128'), 128);
+      
+      document.getElementById('success').style.display = 'block';
+    }
+
+    function downloadIcon(canvasId, filename) {
+      const canvas = document.getElementById(canvasId);
+      const link = document.createElement('a');
+      link.download = filename;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    // Generate icons on page load
+    window.addEventListener('load', generateAllIcons);
+  </script>
+</body>
+</html>
+

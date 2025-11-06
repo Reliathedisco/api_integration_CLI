@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevFinder</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 320px;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      font-size: 12px;
+      opacity: 0.9;
+    }
+
+    .main-btn {
+      width: 100%;
+      padding: 15px;
+      background: white;
+      color: #667eea;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .main-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .main-btn:active {
+      transform: translateY(0);
+    }
+
+    .info {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .shortcut {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    .key {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 11px;
+    }
+
+    .legend {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .legend-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+
+    .legend-color {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      margin-right: 10px;
+      border: 2px solid white;
+    }
+
+    .status {
+      text-align: center;
+      margin-top: 15px;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🔍 DevFinder</h1>
+    <p class="subtitle">Visual Element Locator</p>
+  </div>
+
+  <button class="main-btn" id="toggleBtn">
+    Activate Overlay
+  </button>
+
+  <div class="info">
+    <div class="shortcut">
+      <span>Keyboard Shortcut:</span>
+      <span class="key">Ctrl+Shift+F</span>
+    </div>
+    <div class="shortcut">
+      <span>Mac:</span>
+      <span class="key">⌘+Shift+F</span>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-title">🎨 Element Types</div>
+    <div class="legend-item">
+      <div class="legend-color" style="background: #3b82f6;"></div>
+      <span>API Endpoints</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-color" style="background: #10b981;"></div>
+      <span>Webhooks</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-color" style="background: #8b5cf6;"></div>
+      <span>IDs & Keys</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-color" style="background: #f59e0b;"></div>
+      <span>Tokens</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-color" style="background: #eab308;"></div>
+      <span>Form Inputs</span>
+    </div>
+  </div>
+
+  <div class="status" id="status">
+    Click button or use shortcut to activate
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
+

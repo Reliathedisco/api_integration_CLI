@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevFinder Demo Page - Test All Features</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      color: #667eea;
+      margin-bottom: 10px;
+      font-size: 36px;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 18px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 12px;
+      background: #667eea;
+      color: white;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-left: 10px;
+    }
+
+    .section {
+      margin-bottom: 50px;
+      padding: 30px;
+      background: #f9fafb;
+      border-radius: 15px;
+      border-left: 4px solid #667eea;
+    }
+
+    .section h2 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    .section-description {
+      color: #666;
+      margin-bottom: 20px;
+      padding: 15px;
+      background: white;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .color-label {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+
+    .blue { background: #3b82f6; color: white; }
+    .green { background: #10b981; color: white; }
+    .purple { background: #8b5cf6; color: white; }
+    .orange { background: #f59e0b; color: white; }
+    .yellow { background: #eab308; color: white; }
+
+    .test-item {
+      padding: 15px;
+      margin: 10px 0;
+      background: white;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+    }
+
+    .test-item strong {
+      display: block;
+      color: #667eea;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    a {
+      color: #667eea;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    code {
+      background: #f3f4f6;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    .api-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .form-group {
+      margin: 15px 0;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: #374151;
+      font-weight: 500;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .instructions {
+      background: #fef3c7;
+      border: 2px solid #fbbf24;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+
+    .instructions h3 {
+      color: #92400e;
+      margin-bottom: 10px;
+    }
+
+    .instructions ol {
+      margin-left: 20px;
+      color: #78350f;
+    }
+
+    .instructions li {
+      margin: 8px 0;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      border: 2px solid #e5e7eb;
+    }
+
+    .stat-number {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔍 DevFinder Demo Page <span class="badge">Test Environment</span></h1>
+    <p class="subtitle">This page contains various elements for testing the DevFinder extension</p>
+
+    <div class="instructions">
+      <h3>📋 How to Test</h3>
+      <ol>
+        <li>Make sure DevFinder extension is installed and enabled</li>
+        <li>Press <strong>Cmd+Shift+F</strong> (Mac) or <strong>Ctrl+Shift+F</strong> (Windows/Linux)</li>
+        <li>Or click the DevFinder icon in your browser toolbar</li>
+        <li>Look for highlighted elements in different colors below</li>
+        <li>Hover over highlights to see tooltips</li>
+        <li>Click highlights to copy values</li>
+        <li>Try the search/filter feature in the control panel</li>
+      </ol>
+    </div>
+
+    <!-- API Endpoints Section -->
+    <div class="section">
+      <h2>API Endpoints <span class="color-label blue">Blue</span></h2>
+      <div class="section-description">
+        These elements should be highlighted in <strong>blue</strong>. They contain API endpoint patterns.
+      </div>
+
+      <div class="api-list">
+        <div class="test-item">
+          <strong>REST API:</strong>
+          <a href="https://api.example.com/v1/users">https://api.example.com/v1/users</a>
+        </div>
+
+        <div class="test-item">
+          <strong>GraphQL:</strong>
+          <a href="https://api.example.com/graphql">https://api.example.com/graphql</a>
+        </div>
+
+        <div class="test-item">
+          <strong>Versioned API:</strong>
+          <a href="https://example.com/api/v2/products">https://example.com/api/v2/products</a>
+        </div>
+
+        <div class="test-item">
+          <strong>JSON Endpoint:</strong>
+          <a href="https://example.com/data.json">https://example.com/data.json</a>
+        </div>
+
+        <div class="test-item">
+          <strong>REST API:</strong>
+          <span data-endpoint="https://api.stripe.com/v1/charges">https://api.stripe.com/v1/charges</span>
+        </div>
+
+        <div class="test-item">
+          <strong>API Path:</strong>
+          <code>/api/endpoints/list</code>
+        </div>
+      </div>
+    </div>
+
+    <!-- Webhooks Section -->
+    <div class="section">
+      <h2>Webhooks <span class="color-label green">Green</span></h2>
+      <div class="section-description">
+        These elements should be highlighted in <strong>green</strong>. They contain webhook patterns.
+      </div>
+
+      <div class="api-list">
+        <div class="test-item">
+          <strong>Webhook URL:</strong>
+          <a href="https://example.com/webhook/stripe">https://example.com/webhook/stripe</a>
+        </div>
+
+        <div class="test-item">
+          <strong>Hook Endpoint:</strong>
+          <span data-webhook="https://example.com/hooks/github">https://example.com/hooks/github</span>
+        </div>
+
+        <div class="test-item">
+          <strong>Callback URL:</strong>
+          <a href="https://example.com/callback/payment">https://example.com/callback/payment</a>
+        </div>
+
+        <div class="test-item">
+          <strong>Notification URL:</strong>
+          <a href="https://api.example.com/notify">https://api.example.com/notify</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- IDs & Keys Section -->
+    <div class="section">
+      <h2>IDs & Keys <span class="color-label purple">Purple</span></h2>
+      <div class="section-description">
+        These elements should be highlighted in <strong>purple</strong>. They contain ID and key patterns.
+      </div>
+
+      <div class="api-list">
+        <div class="test-item">
+          <strong>Stripe Public Key:</strong>
+          <span data-key="pk_test_51234567890abcdefghijk">pk_test_51234567890abcdefghijk</span>
+        </div>
+
+        <div class="test-item">
+          <strong>Stripe Secret Key:</strong>
+          <span>sk_test_51234567890abcdefghijk</span>
+        </div>
+
+        <div class="test-item">
+          <strong>Client ID:</strong>
+          <span data-client-id="client_1234567890">client_1234567890</span>
+        </div>
+
+        <div class="test-item">
+          <strong>App ID:</strong>
+          <span data-app-id="app_9876543210">app_9876543210</span>
+        </div>
+
+        <div class="test-item">
+          <strong>API Key:</strong>
+          <span data-api-key="AIzaSyD1234567890abcdefghijk">AIzaSyD1234567890abcdefghijk</span>
+        </div>
+
+        <div class="test-item">
+          <strong>Resource ID:</strong>
+          <span data-id="resource-12345">resource-12345</span>
+        </div>
+
+        <div class="test-item">
+          <strong>Database ID:</strong>
+          <code>db_id: "usr_1234567890"</code>
+        </div>
+
+        <div class="test-item">
+          <strong>Session Token:</strong>
+          <span>session_token_abc123xyz789</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tokens Section -->
+    <div class="section">
+      <h2>Tokens <span class="color-label orange">Orange</span></h2>
+      <div class="section-description">
+        These elements should be highlighted in <strong>orange</strong>. They contain token patterns.
+      </div>
+
+      <div class="api-list">
+        <div class="test-item">
+          <strong>Bearer Token:</strong>
+          <code>Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9</code>
+        </div>
+
+        <div class="test-item">
+          <strong>Access Token:</strong>
+          <span data-token="access_token_1234567890">access_token_1234567890</span>
+        </div>
+
+        <div class="test-item">
+          <strong>Refresh Token:</strong>
+          <span>refresh_token_abcdef123456</span>
+        </div>
+
+        <div class="test-item">
+          <strong>JWT Token:</strong>
+          <code>jwt: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0"</code>
+        </div>
+
+        <div class="test-item">
+          <strong>Auth Token:</strong>
+          <span data-auth="auth_token_xyz789abc123">auth_token_xyz789abc123</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Inputs Section -->
+    <div class="section">
+      <h2>Form Inputs <span class="color-label yellow">Yellow</span></h2>
+      <div class="section-description">
+        These elements should be highlighted in <strong>yellow</strong>. Important form inputs.
+      </div>
+
+      <form>
+        <div class="form-group">
+          <label>API Key:</label>
+          <input type="text" name="api_key" placeholder="Enter your API key">
+        </div>
+
+        <div class="form-group">
+          <label>Access Token:</label>
+          <input type="text" name="access_token" placeholder="Enter access token">
+        </div>
+
+        <div class="form-group">
+          <label>Client ID:</label>
+          <input type="text" name="client_id" placeholder="Enter client ID">
+        </div>
+
+        <div class="form-group">
+          <label>Email:</label>
+          <input type="email" name="email" placeholder="your@email.com">
+        </div>
+
+        <div class="form-group">
+          <label>Password:</label>
+          <input type="password" name="password" placeholder="Enter password">
+        </div>
+
+        <div class="form-group">
+          <label>Username:</label>
+          <input type="text" name="username" placeholder="Enter username">
+        </div>
+      </form>
+    </div>
+
+    <!-- Statistics -->
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-number blue">6</div>
+        <div class="stat-label">API Endpoints</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number green">4</div>
+        <div class="stat-label">Webhooks</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number purple">8</div>
+        <div class="stat-label">IDs & Keys</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number orange">5</div>
+        <div class="stat-label">Tokens</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number yellow">6</div>
+        <div class="stat-label">Form Inputs</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    console.log('DevFinder Demo Page Loaded');
+    console.log('Expected elements to detect:');
+    console.log('- API Endpoints: 6+');
+    console.log('- Webhooks: 4+');
+    console.log('- IDs & Keys: 8+');
+    console.log('- Tokens: 5+');
+    console.log('- Form Inputs: 6+');
+  </script>
+</body>
+</html>
+
