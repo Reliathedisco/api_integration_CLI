@@ -1,5 +1,5 @@
 {
-  "name": "@api-integrations/cli",
+  "name": "@integrateapi/cli",
   "version": "1.0.0",
   "description": "CLI tool for generating production-ready API integrations",
   "main": "dist/index.js",
