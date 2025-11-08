@@ -2,6 +2,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { CopyButton } from "@/components/copy-button";
 import { sql } from "@/lib/neon/client";
 
 export default async function DashboardPage() {
@@ -88,12 +89,7 @@ export default async function DashboardPage() {
                       <div className="flex-1 rounded-md bg-muted p-3 font-mono text-sm break-all">
                         {license.key}
                       </div>
-                      <Button 
-                        variant="outline"
-                        onClick={() => navigator.clipboard.writeText(license.key)}
-                      >
-                        Copy
-                      </Button>
+                      <CopyButton text={license.key} />
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-4 pt-4 border-t">

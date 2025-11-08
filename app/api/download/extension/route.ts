@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
-import archiver from 'archiver';
-import { Readable } from 'stream';
+import { sql } from '@/lib/neon/client';
+
+export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
 
 /**
  * Download endpoint for the DevFinder Chrome extension
@@ -10,7 +11,7 @@ import { Readable } from 'stream';
 export async function GET(request: NextRequest) {
   try {
     // Get license key from query params
-    const searchParams = request.nextUrl.searchParams;
+    const { searchParams } = new URL(request.url);
     const licenseKey = searchParams.get('license');
 
     if (!licenseKey) {
@@ -20,31 +21,24 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Verify license key in database
-    const supabase = await createClient();
-    const { data: license, error } = await supabase
-      .from('license_keys')
-      .select('*')
-      .eq('key', licenseKey)
-      .eq('status', 'active')
-      .single();
+    // Verify license key in Neon database
+    const licenses = await sql`
+      SELECT * FROM license_keys 
+      WHERE key = ${licenseKey} AND status = 'active'
+      LIMIT 1
+    `;
 
-    if (error || !license) {
+    if (licenses.length === 0) {
       return NextResponse.json(
         { error: 'Invalid or expired license key' },
         { status: 401 }
       );
     }
 
-    // TODO: Create ZIP of extension files and return
-    // For now, return success
-    return NextResponse.json({
-      message: 'Extension download will be available here',
-      license: {
-        plan: license.plan_type,
-        status: license.status
-      }
-    });
+    const license = licenses[0];
+
+    // Redirect to extension download
+    return NextResponse.redirect('https://integrateapi.io/devfinder-extension.zip');
 
   } catch (error) {
     console.error('Extension download error:', error);
