@@ -118,6 +118,8 @@ export function DashboardContent() {
               const email = formData.get('email') as string;
               
               setLoading(true);
+              setError('');
+              
               try {
                 const res = await fetch('/api/get-license-by-email', {
                   method: 'POST',
@@ -132,24 +134,32 @@ export function DashboardContent() {
                   localStorage.setItem('integrateapi_license', JSON.stringify(data.license));
                   setError('');
                 } else {
-                  setError(data.error || 'No license found for this email');
+                  setError(data.error || 'No license found for this email. Make sure you use the email from your purchase.');
                 }
               } catch (err) {
-                setError('Failed to retrieve license');
+                setError('Failed to retrieve license. Please try again.');
               } finally {
                 setLoading(false);
               }
             }} className="space-y-4">
+              {error && (
+                <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3">
+                  <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+                </div>
+              )}
               <input
                 type="email"
                 name="email"
-                placeholder="your@email.com"
-                className="w-full px-4 py-2 border rounded-lg"
+                placeholder="email@you-used-to-purchase.com"
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 required
               />
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? 'Searching...' : 'Retrieve License'}
+                {loading ? 'Searching...' : 'Retrieve My License'}
               </Button>
+              <p className="text-xs text-muted-foreground text-center">
+                Enter the email you used when purchasing on Stripe
+              </p>
             </form>
           </CardContent>
         </Card>
