@@ -51,4 +51,7 @@ packages/cli/node_modules
 .env.production
 .env.check
 .env.vercel.*
+.env.neon
+create-license.sql
+mcp.json
 
