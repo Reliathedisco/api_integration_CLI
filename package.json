@@ -22,6 +22,7 @@
     "test:report": "playwright show-report"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
     "@radix-ui/react-slot": "^1.0.2",
     "@supabase/ssr": "^0.5.0",
     "@supabase/supabase-js": "^2.45.0",
@@ -40,13 +41,13 @@
     "@types/react": "^18.3.0",
     "@types/react-dom": "^18.3.0",
     "autoprefixer": "^10.4.18",
+    "checkly": "latest",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.0",
+    "jiti": "^2",
     "postcss": "^8.4.35",
     "prettier": "^3.2.5",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5.4.0",
-    "checkly": "latest",
-    "jiti": "^2"
+    "typescript": "^5.4.0"
   }
 }

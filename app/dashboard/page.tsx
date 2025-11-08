@@ -2,22 +2,20 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { createClient } from "@/lib/supabase/server";
+import { sql } from "@/lib/neon/client";
 
 export default async function DashboardPage() {
-  // Fetch user's license from Supabase
-  const supabase = await createClient();
+  // Fetch user's license from Neon
+  const licenses = await sql`
+    SELECT key, status, plan_type, created_at 
+    FROM license_keys 
+    WHERE status = 'active' 
+    ORDER BY created_at DESC 
+    LIMIT 1
+  `;
   
-  // Get the most recent active license
-  const { data: license, error } = await supabase
-    .from('license_keys')
-    .select('*, purchases(*)')
-    .eq('status', 'active')
-    .order('created_at', { ascending: false })
-    .limit(1)
-    .single();
-
-  const hasLicense = !error && license;
+  const license = licenses[0];
+  const hasLicense = !!license;
   
   return (
     <>
