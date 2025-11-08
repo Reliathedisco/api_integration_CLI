@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { headers } from 'next/headers';
 import Stripe from 'stripe';
-import { createClient } from '@/lib/supabase/server';
+import { sql } from '@/lib/neon/client';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2024-10-28.acacia',
@@ -78,84 +78,89 @@ export async function POST(request: NextRequest) {
 
 async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) {
   console.log('✅ Checkout completed:', session.id);
-
-  const supabase = await createClient();
   
   const customerId = session.customer as string;
   const customerEmail = session.customer_details?.email;
-  const planType = session.metadata?.planType || 'pro_lifetime';
+  const planType = 'pro_lifetime';
   const amount = session.amount_total || 0;
 
-  // Find or create user (you'll integrate with Clerk here)
-  // For now, we'll use email as identifier
-  const { data: existingUser } = await supabase
-    .from('users')
-    .select('id')
-    .eq('email', customerEmail)
-    .single();
+  try {
+    // Find or create user
+    const existingUsers = await sql`
+      SELECT id FROM users WHERE email = ${customerEmail} LIMIT 1
+    `;
 
-  let userId = existingUser?.id;
+    let userId;
 
-  if (!userId) {
-    // Create user if doesn't exist
-    const { data: newUser, error: userError } = await supabase
-      .from('users')
-      .insert({
-        email: customerEmail,
-        clerk_id: customerId, // Temporary, should be actual Clerk ID
-      })
-      .select('id')
-      .single();
-
-    if (userError) {
-      console.error('Error creating user:', userError);
-      return;
+    if (existingUsers.length > 0) {
+      userId = existingUsers[0].id;
+    } else {
+      // Create new user
+      const newUsers = await sql`
+        INSERT INTO users (clerk_id, email)
+        VALUES (${customerId}, ${customerEmail})
+        RETURNING id
+      `;
+      userId = newUsers[0].id;
     }
 
-    userId = newUser?.id;
+    // Create purchase record (trigger will auto-create license key)
+    await sql`
+      INSERT INTO purchases (
+        user_id,
+        stripe_customer_id,
+        stripe_session_id,
+        stripe_subscription_id,
+        plan_type,
+        amount,
+        status
+      ) VALUES (
+        ${userId},
+        ${customerId},
+        ${session.id},
+        ${session.subscription as string | null},
+        ${planType},
+        ${amount},
+        'completed'
+      )
+    `;
+
+    console.log('✅ Purchase and license key created successfully');
+
+    // TODO: Send confirmation email via Resend
+  } catch (error) {
+    console.error('Error processing checkout:', error);
   }
-
-  // Create purchase record
-  const { error: purchaseError } = await supabase
-    .from('purchases')
-    .insert({
-      user_id: userId,
-      stripe_customer_id: customerId,
-      stripe_session_id: session.id,
-      stripe_subscription_id: session.subscription as string | null,
-      plan_type: planType,
-      amount: amount,
-      status: 'completed',
-    });
-
-  if (purchaseError) {
-    console.error('Error creating purchase:', purchaseError);
-    return;
-  }
-
-  console.log('Purchase created successfully');
-
-  // TODO: Send confirmation email via Resend
 }
 
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
   console.log('🔄 Subscription updated:', subscription.id);
 
-  const supabase = await createClient();
-
-  // Update subscription status
-  const { error } = await supabase
-    .from('subscriptions')
-    .upsert({
-      stripe_subscription_id: subscription.id,
-      stripe_customer_id: subscription.customer as string,
-      status: subscription.status,
-      current_period_start: new Date(subscription.current_period_start * 1000),
-      current_period_end: new Date(subscription.current_period_end * 1000),
-      cancel_at_period_end: subscription.cancel_at_period_end,
-    });
-
-  if (error) {
+  try {
+    await sql`
+      INSERT INTO subscriptions (
+        stripe_subscription_id,
+        stripe_customer_id,
+        status,
+        current_period_start,
+        current_period_end,
+        cancel_at_period_end
+      ) VALUES (
+        ${subscription.id},
+        ${subscription.customer as string},
+        ${subscription.status},
+        ${new Date(subscription.current_period_start * 1000).toISOString()},
+        ${new Date(subscription.current_period_end * 1000).toISOString()},
+        ${subscription.cancel_at_period_end}
+      )
+      ON CONFLICT (stripe_subscription_id) 
+      DO UPDATE SET
+        status = EXCLUDED.status,
+        current_period_start = EXCLUDED.current_period_start,
+        current_period_end = EXCLUDED.current_period_end,
+        cancel_at_period_end = EXCLUDED.cancel_at_period_end
+    `;
+  } catch (error) {
     console.error('Error updating subscription:', error);
   }
 }
@@ -163,36 +168,25 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
   console.log('❌ Subscription deleted:', subscription.id);
 
-  const supabase = await createClient();
+  try {
+    // Mark subscription as canceled
+    await sql`
+      UPDATE subscriptions
+      SET status = 'canceled'
+      WHERE stripe_subscription_id = ${subscription.id}
+    `;
 
-  // Mark subscription as canceled
-  const { error } = await supabase
-    .from('subscriptions')
-    .update({
-      status: 'canceled',
-    })
-    .eq('stripe_subscription_id', subscription.id);
-
-  if (error) {
-    console.error('Error updating subscription:', error);
-  }
-
-  // Revoke associated license keys
-  const { error: licenseError } = await supabase
-    .from('license_keys')
-    .update({
-      status: 'revoked',
-    })
-    .eq('user_id', (
-      await supabase
-        .from('subscriptions')
-        .select('user_id')
-        .eq('stripe_subscription_id', subscription.id)
-        .single()
-    ).data?.user_id);
-
-  if (licenseError) {
-    console.error('Error revoking license:', licenseError);
+    // Revoke associated license keys
+    await sql`
+      UPDATE license_keys
+      SET status = 'revoked'
+      WHERE user_id IN (
+        SELECT user_id FROM subscriptions
+        WHERE stripe_subscription_id = ${subscription.id}
+      )
+    `;
+  } catch (error) {
+    console.error('Error handling subscription deletion:', error);
   }
 }
 
