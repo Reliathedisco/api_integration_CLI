@@ -16,25 +16,37 @@ export function DashboardContent() {
 
   useEffect(() => {
     async function fetchLicense() {
-      if (!sessionId) {
-        setLoading(false);
-        return;
+      // First check localStorage for saved license
+      const savedLicense = localStorage.getItem('integrateapi_license');
+      if (savedLicense) {
+        try {
+          setLicense(JSON.parse(savedLicense));
+          setLoading(false);
+          return;
+        } catch (e) {
+          localStorage.removeItem('integrateapi_license');
+        }
       }
 
-      try {
-        const res = await fetch(`/api/get-license?session_id=${sessionId}`);
-        const data = await res.json();
-        
-        if (data.license) {
-          setLicense(data.license);
-        } else {
-          setError(data.error || 'License not found');
+      // If we have a session_id from Stripe, fetch license
+      if (sessionId) {
+        try {
+          const res = await fetch(`/api/get-license?session_id=${sessionId}`);
+          const data = await res.json();
+          
+          if (data.license) {
+            setLicense(data.license);
+            // Save to localStorage for future visits
+            localStorage.setItem('integrateapi_license', JSON.stringify(data.license));
+          } else {
+            setError(data.error || 'License not found');
+          }
+        } catch (err) {
+          setError('Failed to fetch license');
         }
-      } catch (err) {
-        setError('Failed to fetch license');
-      } finally {
-        setLoading(false);
       }
+      
+      setLoading(false);
     }
 
     fetchLicense();
@@ -55,7 +67,7 @@ export function DashboardContent() {
 
   if (!hasLicense) {
     return (
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-2xl mx-auto space-y-8">
         <Card className="border-2 border-blue-500">
           <CardHeader>
             <CardTitle>Get Started with IntegrateAPI Pro</CardTitle>
@@ -88,6 +100,57 @@ export function DashboardContent() {
             <Button className="w-full" size="lg" asChild>
               <a href="/pricing">View Pricing</a>
             </Button>
+          </CardContent>
+        </Card>
+
+        {/* Email Retrieval Form */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Already Purchased?</CardTitle>
+            <CardDescription>
+              Enter your email to retrieve your license key
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={async (e) => {
+              e.preventDefault();
+              const formData = new FormData(e.currentTarget);
+              const email = formData.get('email') as string;
+              
+              setLoading(true);
+              try {
+                const res = await fetch('/api/get-license-by-email', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ email }),
+                });
+                
+                const data = await res.json();
+                
+                if (data.license) {
+                  setLicense(data.license);
+                  localStorage.setItem('integrateapi_license', JSON.stringify(data.license));
+                  setError('');
+                } else {
+                  setError(data.error || 'No license found for this email');
+                }
+              } catch (err) {
+                setError('Failed to retrieve license');
+              } finally {
+                setLoading(false);
+              }
+            }} className="space-y-4">
+              <input
+                type="email"
+                name="email"
+                placeholder="your@email.com"
+                className="w-full px-4 py-2 border rounded-lg"
+                required
+              />
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading ? 'Searching...' : 'Retrieve License'}
+              </Button>
+            </form>
           </CardContent>
         </Card>
       </div>
