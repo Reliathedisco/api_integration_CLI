@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Hunt Graphics Generator</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .controls {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .preview-container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .preview {
+      width: 1270px;
+      height: 760px;
+      margin: 0 auto;
+      position: relative;
+      transform-origin: top center;
+      border: 1px solid #e5e7eb;
+    }
+
+    @media (max-width: 1300px) {
+      .preview {
+        transform: scale(0.8);
+      }
+    }
+
+    /* Hero Slide */
+    .hero-slide {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px;
+      text-align: center;
+    }
+
+    .hero-slide h1 {
+      font-size: 72px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      line-height: 1.1;
+    }
+
+    .hero-slide .tagline {
+      font-size: 32px;
+      margin-bottom: 60px;
+      opacity: 0.95;
+      font-weight: 300;
+    }
+
+    .hero-slide .command {
+      background: rgba(0,0,0,0.3);
+      padding: 24px 40px;
+      border-radius: 12px;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 24px;
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255,255,255,0.2);
+    }
+
+    /* Terminal Slide */
+    .terminal-slide {
+      background: #1e1e1e;
+      padding: 40px;
+      font-family: 'Monaco', 'Courier New', monospace;
+    }
+
+    .terminal-header {
+      background: #2d2d2d;
+      padding: 12px 20px;
+      border-radius: 8px 8px 0 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .terminal-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .terminal-dot.red { background: #ff5f56; }
+    .terminal-dot.yellow { background: #ffbd2e; }
+    .terminal-dot.green { background: #27c93f; }
+
+    .terminal-body {
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 0 0 8px 8px;
+      min-height: 600px;
+      color: #d4d4d4;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .terminal-prompt {
+      color: #4ec9b0;
+    }
+
+    .terminal-output {
+      margin: 10px 0;
+    }
+
+    .terminal-success {
+      color: #27c93f;
+    }
+
+    .terminal-comment {
+      color: #6a9955;
+    }
+
+    /* Features Slide */
+    .features-slide {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      padding: 60px;
+    }
+
+    .features-slide h2 {
+      font-size: 56px;
+      color: #1a202c;
+      margin-bottom: 60px;
+      text-align: center;
+      font-weight: 800;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+    }
+
+    .feature-item {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      display: flex;
+      align-items: start;
+      gap: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .feature-icon {
+      font-size: 36px;
+      min-width: 50px;
+    }
+
+    .feature-text h3 {
+      font-size: 24px;
+      color: #1a202c;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .feature-text p {
+      font-size: 16px;
+      color: #4a5568;
+      line-height: 1.5;
+    }
+
+    /* Integrations Slide */
+    .integrations-slide {
+      background: #ffffff;
+      padding: 60px;
+    }
+
+    .integrations-slide h2 {
+      font-size: 56px;
+      color: #1a202c;
+      margin-bottom: 60px;
+      text-align: center;
+      font-weight: 800;
+    }
+
+    .integrations-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .integration-card {
+      background: #f9fafb;
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      border: 2px solid #e5e7eb;
+      transition: transform 0.2s;
+    }
+
+    .integration-card:hover {
+      transform: translateY(-5px);
+      border-color: #667eea;
+    }
+
+    .integration-logo {
+      font-size: 64px;
+      margin-bottom: 20px;
+    }
+
+    .integration-name {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1a202c;
+      margin-bottom: 8px;
+    }
+
+    .integration-desc {
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .integration-count {
+      text-align: center;
+      font-size: 20px;
+      color: #667eea;
+      font-weight: 600;
+    }
+
+    button {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    button:hover {
+      background: #5568d3;
+    }
+
+    select, input {
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+      margin: 5px;
+    }
+
+    .control-group {
+      margin: 15px 0;
+    }
+
+    label {
+      display: inline-block;
+      width: 150px;
+      font-weight: 600;
+      color: #374151;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="controls">
+      <h2>📊 Product Hunt Graphics Generator</h2>
+      <p style="margin: 10px 0; color: #6b7280;">Generate professional graphics for your Product Hunt launch</p>
+      
+      <div class="control-group">
+        <label>Select Template:</label>
+        <select id="templateSelect" onchange="changeTemplate()">
+          <option value="hero">Hero/Cover Image</option>
+          <option value="terminal">Terminal Demo</option>
+          <option value="features">Features Checklist</option>
+          <option value="integrations">Integrations Showcase</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <button onclick="downloadImage()">📸 Download as PNG</button>
+        <button onclick="copyToClipboard()">📋 Copy to Clipboard</button>
+        <span style="margin-left: 20px; color: #6b7280;">Recommended size: 1270x760px</span>
+      </div>
+    </div>
+
+    <div class="preview-container">
+      <div id="preview" class="preview hero-slide">
+        <!-- Hero content will be here -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const templates = {
+      hero: `
+        <div class="hero-slide">
+          <h1>API Integration<br>Boilerplate Tool</h1>
+          <div class="tagline">One command. Production-ready code. Five minutes.</div>
+          <div class="command">npx @api-integrations/cli add stripe</div>
+        </div>
+      `,
+      terminal: `
+        <div class="terminal-slide">
+          <div class="terminal-header">
+            <div class="terminal-dot red"></div>
+            <div class="terminal-dot yellow"></div>
+            <div class="terminal-dot green"></div>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-prompt">$ npx @api-integrations/cli add stripe</div>
+            <div class="terminal-output">
+              <div class="terminal-success">✓ Installing dependencies...</div>
+              <div style="margin-left: 20px;">+ stripe@^14.0.0</div>
+              <div style="margin-top: 15px;" class="terminal-success">✓ Copying integration files...</div>
+              <div style="margin-left: 20px;">✓ lib/stripe/client.ts</div>
+              <div style="margin-left: 20px;">✓ lib/stripe/config.ts</div>
+              <div style="margin-left: 20px;">✓ lib/stripe/webhooks.ts</div>
+              <div style="margin-left: 20px;">✓ app/api/stripe/checkout/route.ts</div>
+              <div style="margin-left: 20px;">✓ app/api/stripe/webhook/route.ts</div>
+              <div style="margin-top: 15px;" class="terminal-success">✓ Creating documentation...</div>
+              <div style="margin-left: 20px;">✓ STRIPE_INTEGRATION.md</div>
+              <div style="margin-top: 20px;">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+              <div style="margin-top: 10px; color: #ffbd2e; font-size: 18px;">✨ Stripe integration installed successfully!</div>
+              <div style="margin-top: 20px; color: #d4d4d4;">Next steps:</div>
+              <div style="margin-left: 20px;">1. Add your Stripe keys to .env.local</div>
+              <div style="margin-left: 20px;">2. Start using: import { stripe } from '@/lib/stripe/client'</div>
+              <div style="margin-top: 20px; color: #6a9955;">// Time saved: ~4 hours ⏱️</div>
+            </div>
+          </div>
+        </div>
+      `,
+      features: `
+        <div class="features-slide">
+          <h2>Why Developers Love It</h2>
+          <div class="features-grid">
+            <div class="feature-item">
+              <div class="feature-icon">✅</div>
+              <div class="feature-text">
+                <h3>Production-Ready</h3>
+                <p>Battle-tested code with error handling, validation, and TypeScript types</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">⚡</div>
+              <div class="feature-text">
+                <h3>Lightning Fast</h3>
+                <p>Save 4+ hours per integration. Ship features, not boilerplate</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">🔒</div>
+              <div class="feature-text">
+                <h3>Webhook Handlers</h3>
+                <p>Signature verification, event handling, and retry logic included</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">📚</div>
+              <div class="feature-text">
+                <h3>Full Documentation</h3>
+                <p>Setup guides, usage examples, and environment variable templates</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">🎯</div>
+              <div class="feature-text">
+                <h3>Zero Lock-In</h3>
+                <p>You own the code. Modify, extend, or remove as needed</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">🆓</div>
+              <div class="feature-text">
+                <h3>Free & Open Source</h3>
+                <p>MIT licensed. Use in any project, commercial or personal</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      integrations: `
+        <div class="integrations-slide">
+          <h2>6 Integrations (and growing)</h2>
+          <div class="integrations-grid">
+            <div class="integration-card">
+              <div class="integration-logo">💳</div>
+              <div class="integration-name">Stripe</div>
+              <div class="integration-desc">Payment processing</div>
+            </div>
+            <div class="integration-card">
+              <div class="integration-logo">🔐</div>
+              <div class="integration-name">Clerk</div>
+              <div class="integration-desc">Authentication</div>
+            </div>
+            <div class="integration-card">
+              <div class="integration-logo">📧</div>
+              <div class="integration-name">Resend</div>
+              <div class="integration-desc">Email sending</div>
+            </div>
+            <div class="integration-card">
+              <div class="integration-logo">👥</div>
+              <div class="integration-name">Liveblocks</div>
+              <div class="integration-desc">Real-time collab</div>
+            </div>
+            <div class="integration-card">
+              <div class="integration-logo">🗄️</div>
+              <div class="integration-name">Supabase</div>
+              <div class="integration-desc">Database & backend</div>
+            </div>
+            <div class="integration-card">
+              <div class="integration-logo">🤖</div>
+              <div class="integration-name">OpenAI</div>
+              <div class="integration-desc">AI completions</div>
+            </div>
+          </div>
+          <div class="integration-count">All production-tested • TypeScript • Next.js App Router</div>
+        </div>
+      `
+    };
+
+    function changeTemplate() {
+      const select = document.getElementById('templateSelect');
+      const preview = document.getElementById('preview');
+      preview.innerHTML = templates[select.value];
+      preview.className = 'preview ' + select.value + '-slide';
+    }
+
+    // Initialize with hero template
+    changeTemplate();
+
+    async function downloadImage() {
+      // Simple instructions since we can't easily export from browser
+      alert('To save as image:\n\n1. Right-click on the preview\n2. Select "Inspect Element"\n3. Right-click the highlighted div\n4. Select "Capture node screenshot"\n\nOr use browser\'s built-in screenshot tool:\nCmd + Shift + 4 (Mac) to select area');
+    }
+
+    function copyToClipboard() {
+      alert('To copy:\n\n1. Use browser screenshot tool:\n   - Mac: Cmd + Shift + 4, then select preview area\n   - Windows: Win + Shift + S\n\n2. Or right-click preview and "Inspect"\n   then "Capture node screenshot"');
+    }
+  </script>
+</body>
+</html>
+
