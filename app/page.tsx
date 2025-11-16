@@ -62,6 +62,9 @@ export default function HomePage() {
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Everything you need to build and debug API integrations faster
             </p>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mt-2">
+              Pre-built templates, not auto-generated code. Drop into any Next.js project.
+            </p>
           </div>
           
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
@@ -166,7 +169,7 @@ export default function HomePage() {
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold mb-4">Why This Bundle?</h2>
               <p className="text-xl text-muted-foreground">
-                The CLI generates the code. The extension helps you configure it.
+                Pre-built templates + Visual API finder = Complete toolkit
               </p>
             </div>
             
@@ -175,7 +178,7 @@ export default function HomePage() {
                 <div className="text-4xl mb-4">⚡</div>
                 <h3 className="font-bold mb-2">10x Faster Setup</h3>
                 <p className="text-sm text-muted-foreground">
-                  Use the extension to instantly find API endpoints, then generate integration code with the CLI
+                  Skip reading docs. Access production-ready templates via CLI. Copy into your project in seconds. No boilerplate to write.
                 </p>
               </div>
               <div className="text-center p-6">
