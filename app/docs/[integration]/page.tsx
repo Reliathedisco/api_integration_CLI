@@ -1,13 +1,16 @@
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { notFound } from "next/navigation";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
 
 const integrationDocs: Record<string, { title: string; content: string; setup: string[]; examples: string[] }> = {
   stripe: {
     title: "Stripe Integration",
     content: "Complete payment processing with webhooks, checkout sessions, and subscription management.",
     setup: [
-      "Install the CLI: npx @api-integrations/cli add stripe",
+      "Install the CLI: npx @integrateapi/cli add stripe",
       "Get your Stripe API keys from dashboard.stripe.com/apikeys",
       "Add keys to .env.local: STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY",
       "Create products in Stripe Dashboard and add price IDs to config",
@@ -24,7 +27,7 @@ const integrationDocs: Record<string, { title: string; content: string; setup: s
     title: "Clerk Authentication",
     content: "User authentication and management with middleware, sign-in/up pages, and webhooks.",
     setup: [
-      "Install the CLI: npx @api-integrations/cli add clerk",
+      "Install the CLI: npx @integrateapi/cli add clerk",
       "Create a Clerk application at clerk.com",
       "Add API keys to .env.local: NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY, CLERK_SECRET_KEY",
       "Middleware is automatically configured to protect routes",
@@ -41,7 +44,7 @@ const integrationDocs: Record<string, { title: string; content: string; setup: s
     title: "Resend Email",
     content: "Email sending with React Email templates for transactional emails.",
     setup: [
-      "Install the CLI: npx @api-integrations/cli add resend",
+      "Install the CLI: npx @integrateapi/cli add resend",
       "Create a Resend account at resend.com",
       "Add API key to .env.local: RESEND_API_KEY",
       "Add and verify your domain in Resend dashboard",
@@ -58,7 +61,7 @@ const integrationDocs: Record<string, { title: string; content: string; setup: s
     title: "Liveblocks Collaboration",
     content: "Real-time collaboration features with presence, cursors, and shared state.",
     setup: [
-      "Install the CLI: npx @api-integrations/cli add liveblocks",
+      "Install the CLI: npx @integrateapi/cli add liveblocks",
       "Create a Liveblocks account at liveblocks.io",
       "Add API keys to .env.local: LIVEBLOCKS_SECRET_KEY, NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY",
       "Wrap collaborative components with RoomProvider",
@@ -75,7 +78,7 @@ const integrationDocs: Record<string, { title: string; content: string; setup: s
     title: "Supabase Database",
     content: "PostgreSQL database with authentication, real-time subscriptions, and Row Level Security.",
     setup: [
-      "Install the CLI: npx @api-integrations/cli add supabase",
+      "Install the CLI: npx @integrateapi/cli add supabase",
       "Create a Supabase project at supabase.com",
       "Add keys to .env.local: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY",
       "Run your database migrations in Supabase SQL Editor",
@@ -92,7 +95,7 @@ const integrationDocs: Record<string, { title: string; content: string; setup: s
     title: "OpenAI Integration",
     content: "AI completions, chat, embeddings, and image generation with OpenAI.",
     setup: [
-      "Install the CLI: npx @api-integrations/cli add openai",
+      "Install the CLI: npx @integrateapi/cli add openai",
       "Get your API key from platform.openai.com/api-keys",
       "Add key to .env.local: OPENAI_API_KEY",
       "Choose your model (gpt-4, gpt-3.5-turbo, etc.)",
@@ -117,83 +120,82 @@ export default function IntegrationDocPage({ params }: { params: { integration: 
   return (
     <>
       <Navigation />
-      <main className="flex-1">
-        <section className="container mx-auto px-4 md:px-6 lg:px-8 py-24">
+      <main className="flex-1 bg-background pt-16">
+        <section className="container mx-auto px-4 md:px-6 lg:px-8 py-24 max-w-7xl">
           <div className="max-w-4xl mx-auto">
             {/* Header */}
             <div className="mb-12">
-              <h1 className="text-4xl font-bold mb-4">{doc.title}</h1>
+              <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-foreground mb-4">
+                {doc.title}
+              </h1>
               <p className="text-xl text-muted-foreground">{doc.content}</p>
             </div>
 
             {/* Quick Setup */}
-            <div className="mb-12">
-              <h2 className="text-2xl font-bold mb-6">Quick Setup</h2>
+            <Card className="mb-12 p-8 bg-card border-2 border-border">
+              <h2 className="text-3xl font-bold mb-6 text-foreground">Quick Setup</h2>
               <div className="space-y-4">
                 {doc.setup.map((step, index) => (
                   <div key={index} className="flex gap-4">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm">
                       {index + 1}
                     </div>
                     <div className="flex-1">
-                      <p className="text-muted-foreground">{step}</p>
+                      <p className="text-muted-foreground leading-relaxed">{step}</p>
                     </div>
                   </div>
                 ))}
               </div>
-            </div>
+            </Card>
 
             {/* What You Can Build */}
             <div className="mb-12">
-              <h2 className="text-2xl font-bold mb-6">What You Can Build</h2>
+              <h2 className="text-3xl font-bold mb-6 text-foreground">What You Can Build</h2>
               <div className="grid md:grid-cols-2 gap-4">
                 {doc.examples.map((example, index) => (
-                  <div key={index} className="flex items-start gap-3 p-4 border rounded-lg">
-                    <span className="text-primary">✓</span>
-                    <p>{example}</p>
-                  </div>
+                  <Card key={index} className="flex items-start gap-3 p-6 bg-card border-2 border-border hover:border-primary transition-colors">
+                    <span className="text-primary font-bold text-lg">✓</span>
+                    <p className="text-foreground">{example}</p>
+                  </Card>
                 ))}
               </div>
             </div>
 
             {/* Installation Command */}
-            <div className="bg-muted rounded-lg p-6 mb-12">
-              <h3 className="font-semibold mb-3">Installation Command</h3>
-              <div className="bg-background rounded-md p-4">
-                <code className="text-sm">
-                  npx @api-integrations/cli add {params.integration}
+            <Card className="bg-secondary/50 border-2 border-border p-8 mb-12">
+              <h3 className="font-bold text-xl mb-4 text-foreground">Installation Command</h3>
+              <div className="bg-card rounded-lg p-4 border border-border">
+                <code className="text-sm font-mono text-foreground">
+                  npx @integrateapi/cli add {params.integration}
                 </code>
               </div>
-            </div>
+            </Card>
 
             {/* Next Steps */}
-            <div className="border-t pt-8">
-              <h2 className="text-2xl font-bold mb-6">Next Steps</h2>
-              <div className="grid md:grid-cols-3 gap-4">
-                <a 
-                  href="/pricing"
-                  className="p-6 border rounded-lg hover:border-primary transition-colors text-center"
-                >
-                  <div className="text-3xl mb-2">💳</div>
-                  <div className="font-semibold mb-1">Get Access</div>
-                  <div className="text-sm text-muted-foreground">Purchase to use this integration</div>
-                </a>
-                <a 
-                  href="/integrations"
-                  className="p-6 border rounded-lg hover:border-primary transition-colors text-center"
-                >
-                  <div className="text-3xl mb-2">🔌</div>
-                  <div className="font-semibold mb-1">All Integrations</div>
-                  <div className="text-sm text-muted-foreground">Browse all available integrations</div>
-                </a>
-                <a 
-                  href="/dashboard"
-                  className="p-6 border rounded-lg hover:border-primary transition-colors text-center"
-                >
-                  <div className="text-3xl mb-2">🎯</div>
-                  <div className="font-semibold mb-1">Dashboard</div>
-                  <div className="text-sm text-muted-foreground">View your license key</div>
-                </a>
+            <div className="border-t-2 border-border pt-12">
+              <h2 className="text-3xl font-bold mb-8 text-foreground">Next Steps</h2>
+              <div className="grid md:grid-cols-3 gap-6">
+                <Link href="/pricing">
+                  <Card className="p-6 border-2 border-border hover:border-primary hover:shadow-lg hover:shadow-primary/20 transition-all text-center h-full bg-card">
+                    <div className="text-4xl mb-3">💳</div>
+                    <div className="font-bold text-lg mb-2 text-foreground">Get Access</div>
+                    <div className="text-sm text-muted-foreground">Purchase to use this integration</div>
+                  </Card>
+                </Link>
+                <Link href="/integrations">
+                  <Card className="p-6 border-2 border-border hover:border-primary hover:shadow-lg hover:shadow-primary/20 transition-all text-center h-full bg-card">
+                    <div className="text-4xl mb-3">🔌</div>
+                    <div className="font-bold text-lg mb-2 text-foreground">All Integrations</div>
+                    <div className="text-sm text-muted-foreground">Browse all available integrations</div>
+                  </Card>
+                </Link>
+                <Link href="/dashboard">
+                  <Card className="p-6 border-2 border-border hover:border-primary hover:shadow-lg hover:shadow-primary/20 transition-all text-center h-full bg-card">
+                    <div className="text-4xl mb-3">🎯</div>
+                    <div className="font-bold text-lg mb-2 text-foreground">Dashboard</div>
+                    <div className="text-sm text-muted-foreground">View your license key</div>
+                  </Card>
+                </Link>
               </div>
             </div>
           </div>
